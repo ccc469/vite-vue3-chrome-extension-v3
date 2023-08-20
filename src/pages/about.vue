@@ -2,7 +2,7 @@
   <div class="m-4">
     <h1>Extension About Page</h1>
 
-    <button @click="$router.back">Go Back</button>
+    <button class="underline" @click="$router.back">Go Back</button>
   </div>
 </template>
 
