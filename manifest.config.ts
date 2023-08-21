@@ -19,9 +19,9 @@ export default defineManifest(async (env) => ({
   manifest_version: 3,
   // key: 'ekgmcbpgglflmgcfajnglpbcbdccnnje',
   icons: {
-    '16': `src/assets/vite.png`,
-    '48': `src/assets/vite.png`,
-    '128': `src/assets/vite.png`,
+    '16': `src/assets/logo.png`,
+    '48': `src/assets/logo.png`,
+    '128': `src/assets/logo.png`,
   },
   action: {
     default_popup: 'src/popup/index.html',

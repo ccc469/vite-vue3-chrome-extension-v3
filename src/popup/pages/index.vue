@@ -1,6 +1,8 @@
 <template>
   <div class="text-center m-4">
-    <h1 class="text-red-700 text-3xl font-bold underline pb-6">Hello world from Popup!</h1>
+    <h1 class="text-red-700 text-3xl font-bold underline pb-6">
+      Hello world from Popup!
+    </h1>
 
     <RouterLink to="/about">
       <div class="underline">About</div>
