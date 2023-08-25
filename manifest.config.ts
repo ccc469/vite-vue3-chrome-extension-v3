@@ -17,7 +17,6 @@ export default defineManifest(async (env) => ({
   // semver is OK in "version_name"
   version_name: version,
   manifest_version: 3,
-  // key: 'ekgmcbpgglflmgcfajnglpbcbdccnnje',
   icons: {
     '16': `src/assets/logo.png`,
     '48': `src/assets/logo.png`,
@@ -29,17 +28,33 @@ export default defineManifest(async (env) => ({
   background: {
     service_worker: 'src/background/index.ts',
   },
+  commands: {
+    'element-selector': {
+      suggested_key: {
+        default: 'Alt+P',
+        mac: 'Alt+P',
+      },
+      description: 'Open HTMLElement Selector',
+    },
+  },
   content_scripts: [
     {
       all_frames: false,
       js: ['src/content-script/index.ts'],
       matches: ['*://*/*'],
-      run_at: 'document_end',
+      run_at: 'document_start',
     },
   ],
   host_permissions: ['*://*/*'],
   options_page: 'src/options/index.html',
-  permissions: ['storage', 'activeTab', 'identity'],
+  permissions: [
+    'tabs',
+    'storage',
+    'webRequest',
+    'scripting',
+    'storage',
+    'notifications',
+  ],
   web_accessible_resources: [
     {
       matches: ['*://*/*'],
@@ -49,5 +64,14 @@ export default defineManifest(async (env) => ({
       matches: ['*://*/*'],
       resources: ['src/content-script/iframe/index.html'],
     },
+    {
+      matches: ['*://*/*'],
+      resources: ['src/content-script/element-selector/index.html'],
+    },
   ],
+
+  content_security_policy: {
+    sandbox:
+      "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';",
+  },
 }))

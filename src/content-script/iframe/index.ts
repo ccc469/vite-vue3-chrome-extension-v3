@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from '~pages'
 import '../../assets/base.scss'
-import App from './app.vue'
+import App from './App.vue'
 import './index.scss'
 
 const router = createRouter({
@@ -13,7 +13,5 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.path === '/') return '/iframe'
 })
-
-console.log({ routes })
 
 createApp(App).use(router).mount('#app')

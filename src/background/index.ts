@@ -1,3 +1,4 @@
-console.log('hello world from background')
+import browser from 'webextension-polyfill'
+import BackgroundEventsListeners from './backgroundEventsListeners'
 
-export {}
+browser.commands.onCommand.addListener(BackgroundEventsListeners.onCommand)
