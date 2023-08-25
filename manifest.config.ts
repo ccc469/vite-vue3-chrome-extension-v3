@@ -42,7 +42,7 @@ export default defineManifest(async (env) => ({
       all_frames: false,
       js: ['src/content-script/index.ts'],
       matches: ['*://*/*'],
-      run_at: 'document_start',
+      run_at: 'document_end',
     },
   ],
   host_permissions: ['*://*/*'],
@@ -66,7 +66,7 @@ export default defineManifest(async (env) => ({
     },
     {
       matches: ['*://*/*'],
-      resources: ['src/content-script/element-selector/index.html'],
+      resources: ['src/content-script/element-selector/*'],
     },
   ],
 

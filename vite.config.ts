@@ -1,5 +1,8 @@
 import { crx } from '@crxjs/vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import { rm, stat } from 'fs/promises'
+
+import globPkg from 'glob'
 import { dirname, join, relative, resolve, sep } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -7,8 +10,8 @@ import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
-
 import manifest from './manifest.config'
+const { glob } = globPkg
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -38,14 +41,14 @@ export default defineConfig({
           dir: 'src/popup/pages',
           baseRoute: 'popup',
         },
-        // {
-        //   dir: 'src/content-script/iframe/pages',
-        //   baseRoute: 'iframe',
-        // },
-        // {
-        //   dir: 'src/content-script/element-selector/pages',
-        //   baseRoute: 'element-selector',
-        // },
+        {
+          dir: 'src/content-script/iframe/pages',
+          baseRoute: 'iframe',
+        },
+        {
+          dir: 'src/content-script/element-selector/pages',
+          baseRoute: 'element-selector',
+        },
       ],
     }),
 
@@ -91,14 +94,77 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
-      // input: {
-      //   'service-worker': './src/background/index.ts',
-      // },
+      plugins: [
+        // 清除content-script多余文件
+        {
+          name: 'delete-files-except-specified',
+          writeBundle() {
+            const excludedFiles = ['index.html']
+
+            glob('dist/src/content-script/**/*', (err, files) => {
+              if (err) {
+                console.error('Failed to find files:', err)
+                return
+              }
+
+              Promise.all(
+                files.map(async (file) => {
+                  const filePath = resolve(file)
+                  const fileStats = await stat(filePath)
+                  const fileName = file.split('/').pop()
+                  if (excludedFiles.includes(fileName)) {
+                    return Promise.resolve()
+                  }
+
+                  if (!fileStats.isDirectory()) {
+                    return rm(resolve(file))
+                  }
+                })
+              )
+                .then(() => console.log('Specified files deleted'))
+                .catch((err) => console.error('Failed to delete files:', err))
+            })
+          },
+        },
+      ],
+      input: {
+        iframe: 'src/content-script/iframe/index.html',
+        'element-selector': 'src/content-script/element-selector/index.html',
+      },
       output: {
         manualChunks: (id) => {
           if (id.indexOf('node_modules') > -1) {
             return 'vendor'
           }
+        },
+
+        entryFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split(sep)
+            : []
+
+          let folder = facadeModuleId[facadeModuleId.length - 2] || '[name]'
+          let filename =
+            chunkInfo.facadeModuleId == null ? '[name]-bundle' : '[name]'
+
+          // content-script目录下
+          if (
+            chunkInfo.moduleIds.filter(
+              (moduleId) => moduleId.indexOf('content-script') > -1
+            ).length > 0
+          ) {
+            folder = 'content-script'
+            return `js${sep}${folder}${sep}${filename}${sep}[name]-bundle.js`
+          }
+
+          // 带有扩展名的JavaScript处理
+          const regx = /\.(html|ts)/g
+          if (regx.test(filename)) {
+            filename = filename.replace(regx, '')
+          }
+
+          // 其他TypeScript、JavaScript文件
+          return `js${sep}${folder}${sep}${filename}.js`
         },
 
         chunkFileNames: (chunkInfo) => {
@@ -107,11 +173,6 @@ export default defineConfig({
             : []
 
           let folder = facadeModuleId[facadeModuleId.length - 2] || '[name]'
-          console.log(
-            '🚀 ~ file: vite.config.ts:111 ~ folder:',
-            facadeModuleId[facadeModuleId.length - 2],
-            chunkInfo
-          )
           let filename =
             chunkInfo.facadeModuleId == null ? '[name]-bundle' : '[name]'
 
