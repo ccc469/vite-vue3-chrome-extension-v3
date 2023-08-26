@@ -17,6 +17,7 @@ specifiers:
   '@types/chrome': ^0.0.243
   '@types/eslint': ^8.44.2
   '@types/eslint-config-prettier': ^6.11.0
+  '@types/glob': ^8.1.0
   '@types/node': ^18.17.3
   '@types/prettier': ^3.0.0
   '@types/throttle-debounce': ^5.0.0
@@ -64,6 +65,7 @@ dependencies:
   '@codemirror/theme-one-dark': 6.1.2
   '@codemirror/view': 6.16.0
   '@medv/finder': 3.1.0
+  '@types/glob': 8.1.0
   '@types/throttle-debounce': 5.0.0
   '@uiw/codemirror-theme-github': 4.21.9_wjvbqwn5xht4hmxttrop2angdm
   codemirror: 6.0.1
@@ -795,6 +797,13 @@ packages:
     resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@types/filewriter/-/filewriter-0.0.29.tgz}
     dev: true
 
+  /@types/glob/8.1.0:
+    resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
+    dependencies:
+      '@types/minimatch': 5.1.2
+      '@types/node': 18.17.6
+    dev: false
+
   /@types/har-format/1.2.11:
     resolution: {integrity: sha512-T232/TneofqK30AD1LRrrf8KnjLvzrjWDp7eWST5KoiSzrBfRsLrWDPk4STQPW4NZG6v2MltnduBVmakbZOBIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@types/har-format/-/har-format-1.2.11.tgz}
     dev: true
@@ -802,6 +811,10 @@ packages:
   /@types/json-schema/7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@types/json-schema/-/json-schema-7.0.12.tgz}
     dev: true
+
+  /@types/minimatch/5.1.2:
+    resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
+    dev: false
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
@@ -813,7 +826,6 @@ packages:
 
   /@types/node/18.17.6:
     resolution: {integrity: sha512-fGmT/P7z7ecA6bv/ia5DlaWCH4YeZvAQMNpUhrJjtAhOhZfoxS1VLUgU2pdk63efSjQaOJWdXMuAJsws+8I6dg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@types/node/-/node-18.17.6.tgz}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}

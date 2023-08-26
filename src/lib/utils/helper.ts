@@ -45,3 +45,27 @@ export function sleep(timeout = 500) {
     }, timeout)
   })
 }
+
+/**
+ * 将字符串转换为驼峰式。
+ *
+ * @param {string} value - 需要转换的字符串。
+ * @param {Object} options - 可选的配置对象。
+ * @param {boolean} options.capitalize - 如果为true，首字母将被大写。
+ * @param {boolean} options.addHyphen - 如果为true，驼峰式的位置会转换为带“-”的形式。
+ * @returns {string} 转换后的字符串。
+ */
+export function toCamelCase(
+  value: string,
+  { capitalize = false, addHyphen = false } = {}
+) {
+  const result = value
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) => {
+      return index === 0 && !capitalize
+        ? letter.toLowerCase()
+        : letter.toUpperCase()
+    })
+    .replace(/\s+|[-]/g, '')
+
+  return addHyphen ? result.replace(/[A-Z]/g, '-$&').toLowerCase() : result
+}

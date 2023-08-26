@@ -5,6 +5,8 @@
     class="rounded-t-none"
     lang="javascript"
   ></SharedCodemirror>
+
+  <HelloWorld></HelloWorld>
 </template>
 
 <script setup lang="ts">

@@ -114,37 +114,3 @@ onBeforeUnmount(() => {
   view?.destroy()
 })
 </script>
-
-<style>
-.cm-content {
-  flex-basis: fit-content;
-}
-
-.codemirror.hide-gutters .cm-gutters {
-  display: none !important;
-}
-
-.cm-editor {
-  height: 100%;
-  font-size: 15px;
-  @apply pb-6;
-}
-
-.cm-editor .cm-gutters,
-.cm-editor .cm-content,
-.cm-tooltip.cm-tooltip-autocomplete > ul {
-  font-family:
-    'Source Code Pro',
-    Fira code,
-    Fira Mono,
-    Consolas,
-    Menlo,
-    Courier,
-    monospace !important;
-}
-
-.cm-tooltip-autocomplete {
-  margin-left: -385px;
-  margin-top: -22px;
-}
-</style>

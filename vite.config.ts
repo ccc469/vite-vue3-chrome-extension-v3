@@ -11,6 +11,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
 import manifest from './manifest.config'
+import { toCamelCase } from './src/lib/utils/helper'
 const { glob } = globPkg
 
 // https://vitejs.dev/config/
@@ -112,7 +113,10 @@ export default defineConfig({
                   const filePath = resolve(file)
                   const fileStats = await stat(filePath)
                   const fileName = file.split('/').pop()
-                  if (excludedFiles.includes(fileName)) {
+                  if (
+                    fileName !== undefined &&
+                    excludedFiles.includes(fileName)
+                  ) {
                     return Promise.resolve()
                   }
 
@@ -130,6 +134,7 @@ export default defineConfig({
       input: {
         iframe: 'src/content-script/iframe/index.html',
         'element-selector': 'src/content-script/element-selector/index.html',
+        SharedCodemirror: 'src/components/SharedCodemirror.vue',
       },
       output: {
         manualChunks: (id) => {
@@ -182,9 +187,38 @@ export default defineConfig({
               (moduleId) => moduleId.indexOf('components') > -1
             ).length > 0
           ) {
+            
             folder = 'components'
-            filename = chunkInfo.name.split('.vue')[0]
-            return `js${sep}${folder}${sep}${filename}${sep}${filename}.js`
+            console.log("🚀 ~ file: vite.config.ts:192 ~ folder:", folder)
+            const childFolder = toCamelCase(chunkInfo.name.split('.vue')[0], {
+              addHyphen: true,
+            })
+            filename = toCamelCase(chunkInfo.name.split('.vue')[0], {
+              capitalize: true,
+            })
+            return `js${sep}${folder}${sep}${childFolder}${sep}${filename}.js`
+          }
+
+          // Pages目录下文件处理
+          if (folder === 'pages' && chunkInfo.facadeModuleId) {
+            const srcSuffix = chunkInfo.facadeModuleId.substring(
+              chunkInfo.facadeModuleId.lastIndexOf('src') + 3,
+              chunkInfo.facadeModuleId.length
+            )
+
+            let filename = srcSuffix.substring(
+              srcSuffix.lastIndexOf('/'),
+              srcSuffix.length
+            )
+
+            const childFolder = srcSuffix.split('pages')[0]
+            const pagesRegx = /\.(html|ts|vue)/g
+            if (pagesRegx.test(filename)) {
+              filename = toCamelCase(filename.replace(pagesRegx, ''), {
+                capitalize: true,
+              })
+            }
+            return `js${sep}${folder}${childFolder}${filename}.js`
           }
 
           // 带有扩展名的JavaScript处理
@@ -200,7 +234,7 @@ export default defineConfig({
         },
 
         // 静态资源处理
-        assetFileNames: `[ext]${sep}[name].[ext]`,
+        assetFileNames: `[ext]${sep}[name]-[hash].[ext]`,
       },
     },
   },
