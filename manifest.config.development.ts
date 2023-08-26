@@ -42,12 +42,14 @@ export default defineManifest(async (env) => ({
       all_frames: false,
       js: ['src/content-script/index.ts'],
       matches: ['*://*/*'],
-      run_at: 'document_end',
+      run_at: 'document_start',
     },
   ],
   host_permissions: ['*://*/*'],
   options_page: 'src/options/index.html',
   permissions: [
+    'alarms',
+    'activeTab',
     'tabs',
     'storage',
     'webRequest',
@@ -59,14 +61,7 @@ export default defineManifest(async (env) => ({
     {
       matches: ['*://*/*'],
       resources: ['src/content-script/index.ts'],
-    },
-    {
-      matches: ['*://*/*'],
-      resources: ['src/content-script/iframe/index.html'],
-    },
-    {
-      matches: ['*://*/*'],
-      resources: ['src/content-script/element-selector/*'],
+      use_dynamic_url: true,
     },
   ],
 

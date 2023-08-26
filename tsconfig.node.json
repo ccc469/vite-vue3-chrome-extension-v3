@@ -14,9 +14,10 @@
   },
   "include": [
     "vite.config.ts",
-    "manifest.config.ts",
+    "manifest.config.*.ts",
     "manifest.json",
     ".eslintrc.cjs",
-    "src/lib/utils/helper.ts"
+    "src/lib/utils/helper.ts",
+    "vite.config.custom.*"
   ]
 }

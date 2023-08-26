@@ -20,7 +20,7 @@
   },
   "include": [
     "vite.config.ts",
-    "manifest.config.ts",
+    "manifest.config.development.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
