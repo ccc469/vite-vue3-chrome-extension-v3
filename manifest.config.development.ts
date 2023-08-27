@@ -63,6 +63,11 @@ export default defineManifest(async (env) => ({
       resources: ['src/content-script/index.ts'],
       use_dynamic_url: true,
     },
+    {
+      matches: ['*://*/*'],
+      resources: ['src/content-script/element-selector/index.ts'],
+      use_dynamic_url: true,
+    },
   ],
 
   content_security_policy: {

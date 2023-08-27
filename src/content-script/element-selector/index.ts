@@ -1,7 +1,9 @@
-import { finder } from '@medv/finder'
-import { throttle } from 'throttle-debounce'
-import { copyTextToClipboard } from '~/lib/utils/helper'
 import './index.scss'
+
+import { throttle } from 'throttle-debounce'
+import { hasInstance } from '~/utils/ElementSelector'
+
+import { finder } from '@medv/finder'
 
 // Default: 2147483647
 const getMaxZIndex = () => {
@@ -51,19 +53,24 @@ const showTooltip = throttle(200, (element) => {
 })
 
 ;(async () => {
-  window.addEventListener('mouseover', function (event) {
-    const element = event.target as HTMLElement
-    showTooltip(element)
-  })
+  try {
+    const isMainFrame = window.self === window.top
 
-  window.addEventListener('mouseout', function (event) {
-    const element = event.target as HTMLElement
-    element.style.outline = 'none'
-  })
+    if (isMainFrame) {
+      if (hasInstance()) return
 
-  window.addEventListener('click', async function (event) {
-    const element = event.target as HTMLElement
-    const selector = `document.querySelector('${finder(element)}')`
-    copyTextToClipboard(selector)
-  })
+      const rootElement = document.createElement('div')
+      rootElement.setAttribute('id', 'element-selector-container')
+      rootElement.classList.add()
+      rootElement.attachShadow({ mode: 'open' })
+
+      document.documentElement.appendChild(rootElement)
+    } else {
+      const style = document.createElement('style')
+      style.textContent = '[automa-el-list] {outline: 2px dashed #6366f1;}'
+      document.body.appendChild(style)
+    }
+  } catch (error) {
+    console.error(error)
+  }
 })()

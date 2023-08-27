@@ -1,5 +1,6 @@
 import { sep } from 'path'
-import { toCamelCase } from './src/lib/utils/helper'
+
+import { toCamelCase } from './src/utils/helper'
 import { clearContentScriptFilesPlugin } from './vite.config.custom.plugins'
 
 /**

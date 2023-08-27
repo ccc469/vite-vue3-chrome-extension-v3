@@ -29,12 +29,17 @@ export default defineManifest(async (env) => ({
     service_worker: 'src/background/index.ts',
   },
   commands: {
+    _execute_action: {
+      suggested_key: {
+        default: 'Alt+Shift+P',
+      },
+    },
     'element-selector': {
       suggested_key: {
         default: 'Alt+P',
         mac: 'Alt+P',
       },
-      description: 'Open HTMLElement Selector',
+      description: '标签选择器',
     },
   },
   content_scripts: [
