@@ -6,7 +6,7 @@ import BackgroundEventsListeners from './BackgroundEventsListeners'
 browser.commands.onCommand.addListener(BackgroundEventsListeners.onCommand)
 
 const message = new MessageListener('background')
-message.on('hello', (data, sender) => {
+message.on('hello', (data) => {
   console.log('Received hello:', data)
   return 'Hello to you too!'
 })

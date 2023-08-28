@@ -108,6 +108,8 @@ const customAssetFileNames = (chunkInfo) => {
 const customManualChunks = (id) => {
   if (id.indexOf('node_modules') > -1) {
     return 'vendor'
+  } else if (id.indexOf(`src${sep}utils`) > -1) {
+    return 'utils'
   }
 }
 

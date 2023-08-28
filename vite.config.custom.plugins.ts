@@ -1,39 +1,39 @@
-import { rm, stat } from 'fs/promises'
-
-import globPkg from 'glob'
-import { dirname, relative, resolve } from 'path'
-const { glob } = globPkg
+import fg from 'fast-glob'
+import { stat, unlink } from 'fs/promises'
+import { dirname, relative, resolve, sep } from 'path'
 
 // 清除content-script目录下多余文件
 export function clearContentScriptFilesPlugin() {
   return {
     name: 'delete-files-except-specified',
-    writeBundle() {
+    async writeBundle() {
       const excludedFiles = ['index.html']
 
-      glob('dist/src/content-script/**/*', (err, files) => {
-        if (err) {
-          console.error('Failed to find files:', err)
-          return
-        }
+      try {
+        const files = await fg(
+          `dist${sep}src${sep}content-script${sep}**${sep}*`
+        )
 
-        Promise.all(
+        await Promise.all(
           files.map(async (file) => {
             const filePath = resolve(file)
             const fileStats = await stat(filePath)
-            const fileName = file.split('/').pop()
+            const fileName = file.split(sep).pop()
+
             if (fileName !== undefined && excludedFiles.includes(fileName)) {
               return Promise.resolve()
             }
 
             if (!fileStats.isDirectory()) {
-              return rm(resolve(file))
+              return unlink(filePath)
             }
           })
         )
-          .then(() => console.log('Specified files deleted'))
-          .catch((err) => console.error('Failed to delete files:', err))
-      })
+
+        console.log('Specified files deleted')
+      } catch (err) {
+        console.error('Failed to delete files:', err)
+      }
     },
   }
 }

@@ -31,15 +31,15 @@ export default defineManifest(async (env) => ({
   commands: {
     _execute_action: {
       suggested_key: {
-        default: 'Alt+Shift+P',
+        default: 'Alt+Shift+S',
       },
     },
     'element-selector': {
       suggested_key: {
-        default: 'Alt+P',
-        mac: 'Alt+P',
+        default: 'Alt+S',
+        mac: 'Alt+S',
       },
-      description: '标签选择器',
+      description: '打开元素选择器',
     },
   },
   content_scripts: [

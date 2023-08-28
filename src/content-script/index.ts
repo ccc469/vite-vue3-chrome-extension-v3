@@ -11,6 +11,7 @@ browser.runtime.onMessage.addListener(onMessage)
       { text: 'Hi there!' },
       'background'
     )
+
     console.log('Received response:', response)
   } catch (error) {
     console.log('Failed to send message:', error)
