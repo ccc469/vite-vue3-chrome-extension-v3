@@ -27,8 +27,11 @@ export async function initElementSelector({
           allFrames: true,
           tabId: activeTab.id,
         },
-        // files: ['./elementSelector.bundle.js'],
-        files: ['src/content-script/element-selector/index.ts'],
+        files: [
+          process.env.NODE_ENV === 'development'
+            ? 'src/content-script/element-selector/index.ts'
+            : 'js/content-script/element-selector/element-selector-bundle.js',
+        ],
       })
     }
 
@@ -40,7 +43,9 @@ export async function initElementSelector({
 }
 
 export function hasInstance() {
-  const rootElementExist = document.querySelector(``) as HTMLElement
+  const rootElementExist = document.querySelector(
+    Global_Element_Selector_ID
+  ) as HTMLElement
   if (rootElementExist) {
     rootElementExist.style.display = 'block'
     return true
