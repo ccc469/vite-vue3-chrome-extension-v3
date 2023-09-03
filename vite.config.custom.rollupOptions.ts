@@ -117,7 +117,7 @@ export function developmentRollupOptions() {
   return {
     input: {
       iframe: 'src/content-script/iframe/index.html',
-      elementSelector: 'src/content-script/element-selector/index.html',
+      // elementSelector: 'src/content-script/element-selector/index.html',
     },
   }
 }

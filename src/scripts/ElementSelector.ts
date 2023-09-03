@@ -1,5 +1,5 @@
 import { throttle } from 'throttle-debounce'
-import { hasInstance } from '~/utils/ElementSelector'
+import { hasInstance, Open_Element_Selector } from '~/utils/ElementSelector'
 
 import { finder } from '@medv/finder'
 
@@ -17,6 +17,7 @@ const getMaxZIndex = () => {
 const maxZIndex = getMaxZIndex()
 const initTooltip = () => {
   const tooltip = document.createElement('div')
+  tooltip.id = Open_Element_Selector
   tooltip.style.cssText = `
 position: absolute;
 background: white;

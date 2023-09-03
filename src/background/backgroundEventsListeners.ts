@@ -1,4 +1,4 @@
-import { initElementSelector } from '~/utils/ElementSelector'
+import { initElementSelector } from '~/utils/ElementSelector';
 
 class BackgroundEventsListeners {
   static async onCommand(command: string) {

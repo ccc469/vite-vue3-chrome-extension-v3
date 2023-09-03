@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import browser from 'webextension-polyfill'
+import browser from 'webextension-polyfill';
 
 const buttonClass = 'py-2 px-4 flex-grow underline w-auto whitespace-nowrap'
 

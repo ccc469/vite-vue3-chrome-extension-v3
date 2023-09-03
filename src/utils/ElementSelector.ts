@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 import { getActiveTab } from './BrowserHelper'
 
-export const Global_Element_Selector_ID = 'open-element-selector'
+export const Open_Element_Selector = 'open-element-selector'
 export async function initElementSelector({
   tab = null,
 }: { tab?: browser.Tabs.Tab | null } = {}) {
@@ -18,7 +18,7 @@ export async function initElementSelector({
     activeTab.windowId !== undefined
   ) {
     const result = await browser.tabs.sendMessage(activeTab.id, {
-      type: Global_Element_Selector_ID,
+      type: Open_Element_Selector,
     })
 
     if (!result) {
@@ -27,11 +27,7 @@ export async function initElementSelector({
           allFrames: true,
           tabId: activeTab.id,
         },
-        files: [
-          process.env.NODE_ENV === 'development'
-            ? 'src/content-script/element-selector/index.ts'
-            : 'scripts/elementSelector/index.js',
-        ],
+        files: ['scripts/elementSelector/index.js'],
       })
     }
 
@@ -44,7 +40,7 @@ export async function initElementSelector({
 
 export function hasInstance() {
   const rootElementExist = document.querySelector(
-    Global_Element_Selector_ID
+    `#${Open_Element_Selector}`
   ) as HTMLElement
   if (rootElementExist) {
     rootElementExist.style.display = 'block'
