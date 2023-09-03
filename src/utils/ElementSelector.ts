@@ -30,7 +30,7 @@ export async function initElementSelector({
         files: [
           process.env.NODE_ENV === 'development'
             ? 'src/content-script/element-selector/index.ts'
-            : 'js/content-script/element-selector/element-selector-bundle.js',
+            : 'scripts/elementSelector/index.js',
         ],
       })
     }

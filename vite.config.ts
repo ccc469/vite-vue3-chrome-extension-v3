@@ -89,6 +89,7 @@ export default defineConfig({
     assetsRewritePlugin(),
   ],
   build: {
+    emptyOutDir: false,
     chunkSizeWarningLimit: 1500,
     rollupOptions:
       process.env.NODE_ENV === 'development'

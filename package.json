@@ -76,6 +76,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "vite build",
+    "build:all": "pnpm build && pnpm build:elementSelector",
+    "build:elementSelector": "vite build --config vite.config.elementSelector.ts",
     "dev": "vite",
     "lint": "eslint . --fix --ext js,mjs,cjs,ts,mts,cts,vue",
     "preview": "vite preview"

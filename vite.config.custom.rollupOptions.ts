@@ -117,7 +117,7 @@ export function developmentRollupOptions() {
   return {
     input: {
       iframe: 'src/content-script/iframe/index.html',
-      'element-selector': 'src/content-script/element-selector/index.html',
+      elementSelector: 'src/content-script/element-selector/index.html',
     },
   }
 }
@@ -127,7 +127,7 @@ export function productionRollupOptions() {
     plugins: [clearContentScriptFilesPlugin()],
     input: {
       iframe: 'src/content-script/iframe/index.html',
-      'element-selector': 'src/content-script/element-selector/index.html',
+      elementSelector: 'src/content-script/element-selector/index.html',
     },
     output: {
       manualChunks: customManualChunks,

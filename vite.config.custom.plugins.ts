@@ -1,6 +1,17 @@
-import fg from 'fast-glob'
-import { stat, unlink } from 'fs/promises'
-import { dirname, relative, resolve, sep } from 'path'
+import fg from 'fast-glob';
+import {
+  mkdir,
+  stat,
+  unlink,
+  writeFile,
+} from 'fs/promises';
+import {
+  dirname,
+  join,
+  relative,
+  resolve,
+  sep,
+} from 'path';
 
 // 清除content-script目录下多余文件
 export function clearContentScriptFilesPlugin() {
@@ -49,6 +60,27 @@ export function assetsRewritePlugin() {
         /"\/assets\//g,
         `"${relative(dirname(path), '/assets')}/`
       )
+    },
+  }
+}
+
+export async function createEmptyElementSelectorFile() {
+  return {
+    name: 'create-empty-file', // 插件名称
+    async buildStart() {
+      const directoryPath = 'dist/scripts/elementSelector'
+      const filePath = join(directoryPath, 'index.js')
+
+      // 使用 fast-glob 检查目录是否存在
+      const existingDirs = await fg(directoryPath)
+
+      // 如果目录不存在，创建它
+      if (existingDirs.length === 0) {
+        await mkdir(directoryPath, { recursive: true })
+      }
+
+      // 使用 fs/promises 创建一个空的 index.js 文件
+      await writeFile(filePath, '', 'utf8')
     },
   }
 }
