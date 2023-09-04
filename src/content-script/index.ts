@@ -1,12 +1,19 @@
-import browser from 'webextension-polyfill'
-import { hasInstance, Open_Element_Selector } from '~/utils/ElementSelector'
+import CaptureUtil from '~/utils/CaptureUtil'
+import { Open_Element_Selector, Start_Screenshot } from '~/utils/MessageKeys'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-browser.runtime.onMessage.addListener((message: any): Promise<any> => {
-  const instance = hasInstance()
-  if (message.type === Open_Element_Selector) {
-    return Promise.resolve(instance)
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
+  const { type, data } = message
+  if (type === Open_Element_Selector) {
+    sendResponse(false)
+  } else if (type === Start_Screenshot) {
+    CaptureUtil.addTimestampToDataUrl(data, window.location.href)
+      .then((dataUrl) => {
+        sendResponse(dataUrl)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
-  return Promise.resolve(null)
+  return true
 })
 ;(async () => {})()

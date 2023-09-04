@@ -17,7 +17,7 @@
     "manifest.config.*.ts",
     "manifest.json",
     ".eslintrc.cjs",
-    "./src/utils/helper.ts",
+    "src/utils/Helper.ts",
     "vite.config.custom.*"
   ]
 }

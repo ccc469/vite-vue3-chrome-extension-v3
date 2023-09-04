@@ -34,12 +34,19 @@ export default defineManifest(async (env) => ({
         default: 'Alt+Shift+S',
       },
     },
-    'element-selector': {
+    elementSelector: {
       suggested_key: {
         default: 'Alt+S',
         mac: 'Alt+S',
       },
       description: '打开元素选择器',
+    },
+    screenshot: {
+      suggested_key: {
+        default: 'Alt+Shift+A',
+        mac: 'Alt+Shift+A',
+      },
+      description: '截图',
     },
   },
   content_scripts: [
@@ -61,6 +68,8 @@ export default defineManifest(async (env) => ({
     'scripting',
     'storage',
     'notifications',
+    'downloads',
+    'tabCapture',
   ],
   web_accessible_resources: [
     {

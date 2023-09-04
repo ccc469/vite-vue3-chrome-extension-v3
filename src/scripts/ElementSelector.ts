@@ -1,7 +1,10 @@
 import { throttle } from 'throttle-debounce'
-import { hasInstance, Open_Element_Selector } from '~/utils/ElementSelector'
 
 import { finder } from '@medv/finder'
+import { isClickable } from '~/utils/Helper'
+import { Open_Element_Selector } from '~/utils/MessageKeys'
+
+export const Element_Selector_ID = Open_Element_Selector
 
 // Default: 2147483647
 const getMaxZIndex = () => {
@@ -17,7 +20,7 @@ const getMaxZIndex = () => {
 const maxZIndex = getMaxZIndex()
 const initTooltip = () => {
   const tooltip = document.createElement('div')
-  tooltip.id = Open_Element_Selector
+  tooltip.id = Element_Selector_ID
   tooltip.style.cssText = `
 position: absolute;
 background: white;
@@ -33,10 +36,10 @@ z-index: ${maxZIndex};
   document.body.appendChild(tooltip)
   return tooltip
 }
+
 ;(async () => {
   try {
     const isMainFrame = window.self === window.top
-
     if (isMainFrame) {
       const isAppExists = hasInstance()
       if (isAppExists) return
@@ -73,8 +76,28 @@ z-index: ${maxZIndex};
 
       window.addEventListener('mousemove', showTooltip)
       window.addEventListener('mouseout', closeTooltip)
+      window.addEventListener('click', () => {
+        if (!currentSelectElement) {
+          return
+        }
+
+        alert(isClickable(currentSelectElement))
+      })
     }
   } catch (error) {
     console.error(error)
   }
 })()
+
+export function hasInstance(): boolean {
+  const rootElementExist = document.querySelector(
+    `#${Open_Element_Selector}`
+  ) as HTMLDivElement
+
+  if (rootElementExist) {
+    rootElementExist.style.display = 'block'
+    return true
+  }
+
+  return false
+}

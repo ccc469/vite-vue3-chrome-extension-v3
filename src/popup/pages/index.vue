@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import browser from 'webextension-polyfill';
+import browser from 'webextension-polyfill'
 
 const buttonClass = 'py-2 px-4 flex-grow underline w-auto whitespace-nowrap'
 
@@ -45,7 +45,7 @@ const sendNotify = async () => {
 
 const startCodeGenerate = async () => {
   const newUrl = await browser.runtime.getURL(
-    'src/content-script/iframe/index.html'
+    'src/content-script/codegen/index.html'
   )
   // type CreateType = "normal" | "popup" | "panel";
   await browser.windows.create({

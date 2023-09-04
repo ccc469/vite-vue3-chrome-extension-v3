@@ -1,6 +1,6 @@
 import { sep } from 'path'
 
-import { toCamelCase } from './src/utils/helper'
+import { toCamelCase } from './src/utils/Helper'
 import { clearContentScriptFilesPlugin } from './vite.config.custom.plugins'
 
 /**
@@ -116,8 +116,7 @@ const customManualChunks = (id) => {
 export function developmentRollupOptions() {
   return {
     input: {
-      iframe: 'src/content-script/iframe/index.html',
-      // elementSelector: 'src/content-script/element-selector/index.html',
+      codegen: 'src/content-script/codegen/index.html',
     },
   }
 }
@@ -126,8 +125,7 @@ export function productionRollupOptions() {
   return {
     plugins: [clearContentScriptFilesPlugin()],
     input: {
-      iframe: 'src/content-script/iframe/index.html',
-      elementSelector: 'src/content-script/element-selector/index.html',
+      codegen: 'src/content-script/codegen/index.html',
     },
     output: {
       manualChunks: customManualChunks,

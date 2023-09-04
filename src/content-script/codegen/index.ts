@@ -1,12 +1,9 @@
-import '../../assets/base.scss'
-import './index.scss'
-
 import { createApp } from 'vue'
-
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from '~pages'
-
+import '../../assets/base.scss'
 import App from './App.vue'
+import './index.scss'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -14,7 +11,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  if (to.path === '/') return '/element-selector'
+  if (to.path === '/') return '/codegen'
 })
 
 createApp(App).use(router).mount('#app')

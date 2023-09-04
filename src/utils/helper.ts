@@ -69,3 +69,69 @@ export function toCamelCase(
 
   return addHyphen ? result.replace(/[A-Z]/g, '-$&').toLowerCase() : result
 }
+
+export function getUUID(withHyphens: boolean = true): string {
+  let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+  if (!withHyphens) {
+    uuid = uuid.replace(/-/g, '')
+  }
+
+  return uuid.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
+export function getDomainFromUrl(url: string): string | null {
+  try {
+    const parsedUrl = new URL(url)
+    return parsedUrl.hostname
+  } catch (error) {
+    return null
+  }
+}
+
+export function isClickable(element: Element): boolean {
+  if (
+    (element as HTMLElement).offsetWidth <= 0 &&
+    (element as HTMLElement).offsetHeight <= 0
+  ) {
+    return false
+  }
+
+  const computedStyle = window.getComputedStyle(element)
+  if (
+    parseFloat(computedStyle.opacity) <= 0 ||
+    computedStyle.visibility === 'hidden' ||
+    computedStyle.display === 'none'
+  ) {
+    return false
+  }
+
+  if (computedStyle.pointerEvents === 'none') {
+    return false
+  }
+
+  if (
+    element.hasAttribute('disabled') ||
+    element.getAttribute('aria-disabled') === 'true'
+  ) {
+    return false
+  }
+
+  const interactiveSelectors = [
+    'A',
+    'BUTTON',
+    'INPUT',
+    'TEXTAREA',
+    'SELECT',
+    'DETAILS',
+    '[tabindex]',
+  ]
+  if (interactiveSelectors.some((selector) => element.matches(selector))) {
+    return true
+  }
+
+  return false
+}

@@ -20,6 +20,9 @@ defineProps({
 })
 
 const codeValue = computed(() => {
-  return ``
+  return `(async ()=>{
+   console.log(122);
+})
+`
 })
 </script>

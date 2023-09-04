@@ -49,12 +49,8 @@ export default defineConfig({
           baseRoute: 'popup',
         },
         {
-          dir: 'src/content-script/iframe/pages',
-          baseRoute: 'iframe',
-        },
-        {
-          dir: 'src/content-script/element-selector/pages',
-          baseRoute: 'element-selector',
+          dir: 'src/content-script/codegen/pages',
+          baseRoute: 'codegen',
         },
       ],
     }),
@@ -90,6 +86,13 @@ export default defineConfig({
   ],
   build: {
     chunkSizeWarningLimit: 1500,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
     rollupOptions:
       process.env.NODE_ENV === 'development'
         ? developmentRollupOptions()
