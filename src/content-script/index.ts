@@ -1,11 +1,11 @@
 import CaptureUtil from '~/utils/CaptureUtil'
-import { Open_Element_Selector, Start_Screenshot } from '~/utils/MessageKeys'
+import { OPEN_ELEMENT_SELECTOR, START_SCREENSHOT } from '~/utils/CommandKeys'
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   const { type, data } = message
-  if (type === Open_Element_Selector) {
+  if (type === OPEN_ELEMENT_SELECTOR) {
     sendResponse(false)
-  } else if (type === Start_Screenshot) {
+  } else if (type === START_SCREENSHOT) {
     CaptureUtil.addTimestampToDataUrl(data, window.location.href)
       .then((dataUrl) => {
         sendResponse(dataUrl)

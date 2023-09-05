@@ -8,6 +8,8 @@
 </template>
 
 <script setup lang="ts">
+import { MessageListener, MessageTypes } from '~/utils/MessageListener'
+
 defineProps({
   log: {
     type: Object,
@@ -25,4 +27,14 @@ const codeValue = computed(() => {
 })
 `
 })
+
+let message: MessageListener
+onMounted(() => {
+  message = new MessageListener(MessageTypes.CODEGEN.PREFIX)
+  message.on(MessageTypes.CODEGEN.CHANGE_CODE, (data) => {
+    console.log('🚀 ~ file: index.vue:36 ~ message.on ~ data:', data)
+  })
+  chrome.runtime.onMessage.addListener(message.listener())
+})
 </script>
+~/utils/MessageTypes

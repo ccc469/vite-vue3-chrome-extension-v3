@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-import { Open_Element_Selector } from '~/utils/MessageKeys'
+import { OPEN_ELEMENT_SELECTOR } from '~/utils/CommandKeys'
 import { getActiveTab } from '../utils/BrowserHelper'
 
 export async function initElementSelector({
@@ -21,7 +21,7 @@ export async function initElementSelector({
     chrome.tabs.sendMessage(
       activeTabId,
       {
-        type: Open_Element_Selector,
+        type: OPEN_ELEMENT_SELECTOR,
       },
       async (response) => {
         if (!response) {

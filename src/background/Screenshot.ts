@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill'
 
 import CaptureUtil from '~/utils/CaptureUtil'
+import { START_SCREENSHOT } from '~/utils/CommandKeys'
 import { getDomainFromUrl, getUUID } from '~/utils/Helper'
-import { Start_Screenshot } from '~/utils/MessageKeys'
 import { getActiveTab } from '../utils/BrowserHelper'
 
 export async function startScreenshot({
@@ -26,7 +26,7 @@ export async function startScreenshot({
         chrome.tabs.sendMessage(
           tabId,
           {
-            type: Start_Screenshot,
+            type: START_SCREENSHOT,
             data: dataUrl,
           },
           (response) => {

@@ -1,10 +1,10 @@
 import { throttle } from 'throttle-debounce'
 
 import { finder } from '@medv/finder'
-import { isClickable } from '~/utils/Helper'
-import { Open_Element_Selector } from '~/utils/MessageKeys'
+import { OPEN_ELEMENT_SELECTOR } from '~/utils/CommandKeys'
+import { MessageTypes, sendMessage } from '~/utils/MessageListener'
 
-export const Element_Selector_ID = Open_Element_Selector
+export const Element_Selector_ID = OPEN_ELEMENT_SELECTOR
 
 // Default: 2147483647
 const getMaxZIndex = () => {
@@ -47,7 +47,6 @@ z-index: ${maxZIndex};
       const tooltip = initTooltip()
       let currentSelectElement: HTMLElement | null = null
       const showTooltip = throttle(100, (event) => {
-        // 移除旧元素的 outline
         if (currentSelectElement) {
           currentSelectElement.style.outline = ''
         }
@@ -81,7 +80,11 @@ z-index: ${maxZIndex};
           return
         }
 
-        alert(isClickable(currentSelectElement))
+        sendMessage(
+          MessageTypes.CODEGEN.CHANGE_CODE,
+          { data: finder(currentSelectElement) },
+          MessageTypes.CODEGEN.PREFIX
+        )
       })
     }
   } catch (error) {
@@ -91,7 +94,7 @@ z-index: ${maxZIndex};
 
 export function hasInstance(): boolean {
   const rootElementExist = document.querySelector(
-    `#${Open_Element_Selector}`
+    `#${OPEN_ELEMENT_SELECTOR}`
   ) as HTMLDivElement
 
   if (rootElementExist) {

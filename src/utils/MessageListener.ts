@@ -68,3 +68,11 @@ export async function sendMessage(
     console.error(`Failed to send message: ${error}`)
   }
 }
+
+
+export const MessageTypes = {
+  CODEGEN: {
+    PREFIX: 'codegen',
+    CHANGE_CODE: 'change-code',
+  },
+}
