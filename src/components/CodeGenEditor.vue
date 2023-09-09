@@ -2,18 +2,12 @@
   <div
     ref="containerEl"
     :class="{ 'hide-gutters': !lineNumbers }"
-    class="codemirror relative overflow-auto rounded-lg h-screen w-full"
-    style="min-height: 100%"
+    class="codemirror relative overflow-auto rounded-lg w-full"
   >
     <div
       v-if="!hideLang"
       class="absolute bottom-0 left-0 z-10 flex h-6 w-full items-center px-2 text-xs text-gray-300"
-    >
-      <!-- <div class="grow" /> -->
-      <!-- <span>
-        {{ lang }}
-      </span> -->
-    </div>
+    ></div>
   </div>
 </template>
 
@@ -24,10 +18,11 @@ import { html } from '@codemirror/lang-html'
 import { javascript } from '@codemirror/lang-javascript'
 import { json } from '@codemirror/lang-json'
 import { EditorState } from '@codemirror/state'
-import { keymap } from '@codemirror/view'
-import { EditorView, basicSetup } from 'codemirror'
+import { EditorView, keymap } from '@codemirror/view'
+import { basicSetup } from 'codemirror'
 
 // import { githubLight, githubLightInit, githubDark, githubDarkInit } from '@uiw/codemirror-theme-github';
+// import { githubLight } from '@uiw/codemirror-theme-github'
 import { oneDark } from '@codemirror/theme-one-dark'
 
 const props = defineProps({

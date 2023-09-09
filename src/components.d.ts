@@ -7,8 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CodeGenEditor: typeof import('./components/CodeGenEditor.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SharedCodemirror: typeof import('./components/SharedCodemirror.vue')['default']
   }
 }

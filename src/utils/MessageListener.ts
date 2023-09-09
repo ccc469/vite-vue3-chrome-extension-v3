@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+import { OPEN_ELEMENT_SELECTOR } from './GlobalConstants'
 
 type Message = {
   name: string
@@ -69,10 +70,16 @@ export async function sendMessage(
   }
 }
 
-
 export const MessageTypes = {
-  CODEGEN: {
-    PREFIX: 'codegen',
+  // record
+  RECORD: {
+    PREFIX: 'record',
     CHANGE_CODE: 'change-code',
+  },
+  // background
+  BACKGROUND: {
+    PREFIX: 'background',
+    OPEN_ELEMENT_SELECTOR: OPEN_ELEMENT_SELECTOR,
+    GET_CURRENT_DOMAIN: 'get-current-domain',
   },
 }

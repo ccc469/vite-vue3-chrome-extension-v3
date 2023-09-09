@@ -12,24 +12,8 @@ const customChunkFileNames = (chunkInfo) => {
     ? chunkInfo.facadeModuleId.split(sep)
     : []
 
-  let folder = facadeModuleId[facadeModuleId.length - 2] || '[name]'
+  const folder = facadeModuleId[facadeModuleId.length - 2] || '[name]'
   let filename = chunkInfo.facadeModuleId == null ? '[name]-bundle' : '[name]'
-
-  // Components组件
-  if (
-    chunkInfo.moduleIds.filter(
-      (moduleId) => moduleId.indexOf('components') > -1
-    ).length > 0
-  ) {
-    folder = 'components'
-    const childFolder = toCamelCase(chunkInfo.name.split('.vue')[0], {
-      addHyphen: true,
-    })
-    filename = toCamelCase(chunkInfo.name.split('.vue')[0], {
-      capitalize: true,
-    })
-    return `js${sep}${folder}${sep}${childFolder}${sep}${filename}.js`
-  }
 
   // Pages目录下文件处理
   if (folder === 'pages' && chunkInfo.facadeModuleId) {
@@ -116,7 +100,7 @@ const customManualChunks = (id) => {
 export function developmentRollupOptions() {
   return {
     input: {
-      codegen: 'src/content-script/codegen/index.html',
+      record: 'src/content-script/record/index.html',
     },
   }
 }
@@ -125,7 +109,7 @@ export function productionRollupOptions() {
   return {
     plugins: [clearContentScriptFilesPlugin()],
     input: {
-      codegen: 'src/content-script/codegen/index.html',
+      record: 'src/content-script/record/index.html',
     },
     output: {
       manualChunks: customManualChunks,

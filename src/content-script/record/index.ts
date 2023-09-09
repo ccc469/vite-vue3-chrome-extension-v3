@@ -11,7 +11,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  if (to.path === '/') return '/codegen'
+  if (to.path === '/') return '/record'
 })
 
 createApp(App).use(router).mount('#app')

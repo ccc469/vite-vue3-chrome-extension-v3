@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 
 import CaptureUtil from '~/utils/CaptureUtil'
-import { START_SCREENSHOT } from '~/utils/CommandKeys'
+import { START_SCREENSHOT } from '~/utils/GlobalConstants'
 import { getDomainFromUrl, getUUID } from '~/utils/Helper'
 import { getActiveTab } from '../utils/BrowserHelper'
 

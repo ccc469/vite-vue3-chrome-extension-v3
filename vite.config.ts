@@ -49,8 +49,8 @@ export default defineConfig({
           baseRoute: 'popup',
         },
         {
-          dir: 'src/content-script/codegen/pages',
-          baseRoute: 'codegen',
+          dir: 'src/content-script/record/pages',
+          baseRoute: 'record',
         },
       ],
     }),

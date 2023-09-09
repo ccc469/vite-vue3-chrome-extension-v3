@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-import { OPEN_ELEMENT_SELECTOR } from '~/utils/CommandKeys'
+import { OPEN_ELEMENT_SELECTOR } from '~/utils/GlobalConstants'
 import { getActiveTab } from '../utils/BrowserHelper'
 
 export async function initElementSelector({
@@ -32,8 +32,6 @@ export async function initElementSelector({
             },
             files: ['scripts/elementSelector/index.js'],
           })
-          await browser.tabs.update(activeTabId, { active: true })
-          await browser.windows.update(activeTabId, { focused: true })
         }
       }
     )

@@ -66,7 +66,6 @@ export default defineManifest(async (env) => ({
     'storage',
     'webRequest',
     'scripting',
-    'storage',
     'notifications',
     'downloads',
     'tabCapture',

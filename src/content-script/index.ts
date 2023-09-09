@@ -1,5 +1,12 @@
+import browser from 'webextension-polyfill'
+
 import CaptureUtil from '~/utils/CaptureUtil'
-import { OPEN_ELEMENT_SELECTOR, START_SCREENSHOT } from '~/utils/CommandKeys'
+import {
+  OPEN_ELEMENT_SELECTOR,
+  RecordState,
+  START_SCREENSHOT,
+} from '~/utils/GlobalConstants'
+import { MessageTypes, sendMessage } from '~/utils/MessageListener'
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   const { type, data } = message
@@ -16,4 +23,14 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   }
   return true
 })
-;(async () => {})()
+;(async () => {
+  browser.storage.local.get(RecordState).then((result) => {
+    if (result.RecordState) {
+      sendMessage(
+        MessageTypes.BACKGROUND.OPEN_ELEMENT_SELECTOR,
+        true,
+        MessageTypes.BACKGROUND.PREFIX
+      )
+    }
+  })
+})()

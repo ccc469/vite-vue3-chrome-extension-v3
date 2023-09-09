@@ -38,14 +38,6 @@ export function copyTextToClipboard(text: string) {
   })
 }
 
-export function sleep(timeout = 500) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, timeout)
-  })
-}
-
 /**
  * 将字符串转换为驼峰式。
  *
@@ -86,7 +78,7 @@ export function getUUID(withHyphens: boolean = true): string {
 export function getDomainFromUrl(url: string): string | null {
   try {
     const parsedUrl = new URL(url)
-    return parsedUrl.hostname
+    return `${parsedUrl.protocol}//${parsedUrl.hostname}`
   } catch (error) {
     return null
   }
