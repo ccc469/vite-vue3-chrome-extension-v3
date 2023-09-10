@@ -1,19 +1,8 @@
-import fg from 'fast-glob';
-import {
-  mkdir,
-  stat,
-  unlink,
-  writeFile,
-} from 'fs/promises';
-import {
-  dirname,
-  join,
-  relative,
-  resolve,
-  sep,
-} from 'path';
+import fg from 'fast-glob'
+import { mkdir, stat, unlink, writeFile } from 'fs/promises'
+import { dirname, join, relative, resolve, sep } from 'path'
 
-// 清除content-script目录下多余文件
+// 清除contentScript目录下多余文件
 export function clearContentScriptFilesPlugin() {
   return {
     name: 'delete-files-except-specified',

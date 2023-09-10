@@ -1,9 +1,12 @@
-import { throttle } from 'throttle-debounce'
+import { throttle } from 'throttle-debounce';
+import { OPEN_ELEMENT_SELECTOR } from '~/utils/GlobalConstants';
+import {
+  MessageTypes,
+  sendMessage,
+} from '~/utils/MessageListener';
+import UniversalEventDelegator from '~/utils/UniversalEventDelegator';
 
-import { finder } from '@medv/finder'
-import { OPEN_ELEMENT_SELECTOR } from '~/utils/GlobalConstants'
-import { MessageTypes, sendMessage } from '~/utils/MessageListener'
-import UniversalEventDelegator from '~/utils/UniversalEventDelegator'
+import { finder } from '@medv/finder';
 
 export const Element_Selector_ID = OPEN_ELEMENT_SELECTOR
 

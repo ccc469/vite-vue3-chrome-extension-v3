@@ -276,11 +276,16 @@
       </div>
     </div>
   </div>
+
+  <!-- Other -->
 </template>
 
 <script setup lang="ts">
-import { Modal, ModalInterface } from 'flowbite'
-import { RecordDataType } from '~/utils/GlobalConstants'
+import {
+  Modal,
+  ModalInterface,
+} from 'flowbite';
+import { RecordDataType } from '~/utils/GlobalConstants';
 
 const tableHeight = ref(0)
 const updateTableHeight = () => {

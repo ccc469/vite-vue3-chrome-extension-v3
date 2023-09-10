@@ -1,21 +1,24 @@
-import { join, resolve } from 'path'
-import AutoImport from 'unplugin-auto-import/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
-import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
-import Pages from 'vite-plugin-pages'
+import {
+  join,
+  resolve,
+} from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
+import Pages from 'vite-plugin-pages';
 
-import { crx } from '@crxjs/vite-plugin'
-import vue from '@vitejs/plugin-vue'
+import { crx } from '@crxjs/vite-plugin';
+import vue from '@vitejs/plugin-vue';
 
-import developmentManifest from './manifest.config.development'
-import productionManifest from './manifest.config.production'
-import { assetsRewritePlugin } from './vite.config.custom.plugins'
+import developmentManifest from './manifest.config.development';
+import productionManifest from './manifest.config.production';
+import { assetsRewritePlugin } from './vite.config.custom.plugins';
 import {
   developmentRollupOptions,
   productionRollupOptions,
-} from './vite.config.custom.rollupOptions'
+} from './vite.config.custom.rollupOptions';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -51,6 +54,10 @@ export default defineConfig({
         {
           dir: 'src/content-script/record/pages',
           baseRoute: 'record',
+        },
+        {
+          dir: 'src/content-script/pages',
+          baseRoute: 'control',
         },
       ],
     }),

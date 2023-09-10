@@ -1,22 +1,27 @@
 <template>
-  <CodeGenEditor
+  <div class="relative overflow-auto">
+    <CodeGenEditor
     :model-value="codeValue"
     :class="editorClass"
-    class="rounded-t-none"
+    class="rounded-t-none h-screen"
     lang="javascript"
     readonly
   ></CodeGenEditor>
+  </div>
 </template>
 
 <script setup lang="ts">
-import dayjs from 'dayjs'
-import { RecordData, RecordDataType } from '~/utils/GlobalConstants'
-import { getUUID } from '~/utils/Helper'
+import dayjs from 'dayjs';
+import {
+  RecordData,
+  RecordDataType,
+} from '~/utils/GlobalConstants';
+import { getUUID } from '~/utils/Helper';
 import {
   MessageListener,
   MessageTypes,
   sendMessage,
-} from '~/utils/MessageListener'
+} from '~/utils/MessageListener';
 
 defineProps({
   log: {
@@ -41,6 +46,7 @@ let recordData: RecordDataType = {
   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   code: '',
   domain: '',
+  status: 0,
 }
 
 const updateCodeValue = () => {

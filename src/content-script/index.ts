@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill'
-
 import CaptureUtil from '~/utils/CaptureUtil'
 import {
   OPEN_ELEMENT_SELECTOR,
