@@ -75,10 +75,19 @@ export function getUUID(withHyphens: boolean = true): string {
   })
 }
 
-export function getDomainFromUrl(url: string): string | null {
+export function getDomainProtocolFromUrl(url: string): string | null {
   try {
     const parsedUrl = new URL(url)
     return `${parsedUrl.protocol}//${parsedUrl.hostname}`
+  } catch (error) {
+    return null
+  }
+}
+
+export function getDomainFromUrl(url: string): string | null {
+  try {
+    const parsedUrl = new URL(url)
+    return parsedUrl.hostname
   } catch (error) {
     return null
   }

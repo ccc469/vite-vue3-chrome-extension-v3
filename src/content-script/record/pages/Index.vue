@@ -1,27 +1,29 @@
 <template>
   <div class="relative overflow-auto">
-    <CodeGenEditor
-    :model-value="codeValue"
-    :class="editorClass"
-    class="rounded-t-none h-screen"
-    lang="javascript"
-    readonly
-  ></CodeGenEditor>
+    <CodeEditor
+      :model-value="codeValue"
+      :class="editorClass"
+      class="rounded-t-none h-screen"
+      lang="javascript"
+      readonly
+    ></CodeEditor>
   </div>
 </template>
 
 <script setup lang="ts">
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
 import {
+  GetDomainType,
   RecordData,
   RecordDataType,
-} from '~/utils/GlobalConstants';
-import { getUUID } from '~/utils/Helper';
+  RecordState,
+} from '~/utils/GlobalConstants'
+import { getUUID } from '~/utils/Helper'
 import {
   MessageListener,
   MessageTypes,
   sendMessage,
-} from '~/utils/MessageListener';
+} from '~/utils/MessageListener'
 
 defineProps({
   log: {
@@ -38,15 +40,18 @@ const prefixCode: string[] = ['(async ()=> {']
 const suffixCode: string[] = ['})()']
 const middleCode: string[] = []
 const codeValue = ref('')
+const changeRecordId = ref<boolean>(false)
 
 let message: MessageListener
-let domain: string
+let currDomain: string
+let currUrl: string
 let recordData: RecordDataType = {
-  id: getUUID(),
-  time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+  id: '',
+  time: '',
   code: '',
   domain: '',
   status: 0,
+  startUrl: '',
 }
 
 const updateCodeValue = () => {
@@ -57,13 +62,13 @@ const updateCodeValue = () => {
     const results: RecordDataType[] = result.RecordData || []
     const updatedResults = results.map((item) => {
       if (item && item.id === recordData.id) {
-        return { ...item, code: recordData.code, domain: domain }
+        return { ...item, code: recordData.code, domain: currDomain }
       }
       return item
     })
 
     if (!updatedResults.some((item) => item && item.id === recordData.id)) {
-      recordData.domain = domain
+      recordData.domain = currDomain
       updatedResults.push(recordData)
     }
     chrome.storage.local.set({ RecordData: updatedResults })
@@ -72,16 +77,30 @@ const updateCodeValue = () => {
 
 onMounted(async () => {
   const result = await sendMessage(
-    MessageTypes.BACKGROUND.GET_CURRENT_DOMAIN,
-    {},
-    MessageTypes.BACKGROUND.PREFIX
+    MessageTypes.BACKGROUND.PREFIX,
+    MessageTypes.BACKGROUND.GET_CURRENT_DOMAIN
   )
 
-  domain = result as string
+  const { domain, url } = result as GetDomainType
+  currDomain = domain
+  currUrl = url
+  recordData.domain = domain
+  recordData.startUrl = currUrl
   updateCodeValue()
 })
 
 onBeforeMount(() => {
+  recordData.id = getUUID()
+  recordData.time = dayjs().format('YYYY-MM-DD HH:mm:ss')
+
+  if (!changeRecordId.value) {
+    chrome.storage.local.get(RecordState).then((result) => {
+      result.RecordState['recordId'] = recordData.id
+      chrome.storage.local.set({ RecordState: result.RecordState })
+    })
+    changeRecordId.value = true
+  }
+
   message = new MessageListener(MessageTypes.RECORD.PREFIX)
   message.on(MessageTypes.RECORD.CHANGE_CODE, (data) => {
     middleCode.push(`  ${data}`)

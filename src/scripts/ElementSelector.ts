@@ -1,12 +1,9 @@
-import { throttle } from 'throttle-debounce';
-import { OPEN_ELEMENT_SELECTOR } from '~/utils/GlobalConstants';
-import {
-  MessageTypes,
-  sendMessage,
-} from '~/utils/MessageListener';
-import UniversalEventDelegator from '~/utils/UniversalEventDelegator';
+import { throttle } from 'throttle-debounce'
+import { OPEN_ELEMENT_SELECTOR } from '~/utils/GlobalConstants'
+import { MessageTypes, sendMessage } from '~/utils/MessageListener'
+import UniversalEventDelegator from '~/utils/UniversalEventDelegator'
 
-import { finder } from '@medv/finder';
+import { finder } from '@medv/finder'
 
 export const Element_Selector_ID = OPEN_ELEMENT_SELECTOR
 
@@ -44,7 +41,7 @@ z-index: ${maxZIndex};
 export function hasInstance(): boolean {
   const rootElementExist = document.querySelector(
     `#${OPEN_ELEMENT_SELECTOR}`
-  ) as HTMLDivElement
+  ) as HTMLElement
 
   if (rootElementExist) {
     rootElementExist.style.display = 'block'
@@ -64,11 +61,11 @@ const _handleClick = () => {
   }
 
   sendMessage(
+    MessageTypes.RECORD.PREFIX,
     MessageTypes.RECORD.CHANGE_CODE,
     `
     // Click "${finder(currentSelectElement)}"
-    document.querySelector('${finder(currentSelectElement)}').click();`,
-    MessageTypes.RECORD.PREFIX
+    document.querySelector('${finder(currentSelectElement)}').click();`
   )
 }
 
@@ -96,13 +93,13 @@ const _handleChange = () => {
   }
 
   sendMessage(
+    MessageTypes.RECORD.PREFIX,
     MessageTypes.RECORD.CHANGE_CODE,
     `
     // Fill "${finder(currentSelectElement)}"
     document.querySelector('${finder(
       currentSelectElement
-    )}').fill(${fillValue});`,
-    MessageTypes.RECORD.PREFIX
+    )}').fill(${fillValue});`
   )
 }
 
@@ -130,7 +127,6 @@ const _handleChange = () => {
       element.style.outline = '2px solid red'
       currentSelectElement = element
 
-      // 计算偏移量
       const rect = element.getBoundingClientRect()
       const { scrollX, scrollY } = window
       let top: number

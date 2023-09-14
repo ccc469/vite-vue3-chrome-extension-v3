@@ -41,7 +41,7 @@
         class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:relative after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500 flex items-center"
       ></div>
       <span class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-        开启录制
+        {{ checkedText }}
       </span>
     </label>
   </div>
@@ -49,7 +49,10 @@
 
 <script setup lang="ts">
 import browser from 'webextension-polyfill'
-import { RecordState } from '~/utils/GlobalConstants'
+import {
+  POPUP_OPEN_ELEMENT_SELECTOR,
+  RecordState,
+} from '~/utils/GlobalConstants'
 
 const buttonClass = 'py-2 px-4 flex-grow underline w-auto whitespace-nowrap'
 
@@ -59,7 +62,7 @@ const sendNotify = async () => {
     type: 'basic',
     title: '测试标题',
     message: '脚本执行完成啦',
-    iconUrl: '../assets/logo.png',
+    iconUrl: 'src/assets/logo.png',
   })
 }
 
@@ -68,13 +71,19 @@ const startCodeGenerate = async () => {
     'src/content-script/record/index.html'
   )
 
+  const tabs = await chrome.tabs.query({ url: `${newUrl}*` })
+  if (tabs && tabs.length > 0) {
+    return
+  }
+
   const screenWidth = window.screen.availWidth
   const screenHeight = window.screen.availHeight
   const width = Math.round(screenWidth * 0.8)
   const height = Math.round(screenHeight * 0.8)
   const left = (screenWidth - width) / 2
   const top = (screenHeight - height) / 2
-  await browser.windows.create({
+
+  const newWindow = await browser.windows.create({
     left: Math.round(left),
     top: Math.round(top),
     width: width,
@@ -83,26 +92,48 @@ const startCodeGenerate = async () => {
     type: 'popup',
     focused: true,
   })
+
+  chrome.storage.local.set({
+    RecordState: { windowId: newWindow.id, tabId: tabId },
+  })
+
+  await browser.action.setBadgeText({ text: ' 1 ' })
+  await browser.action.setBadgeBackgroundColor({ color: '#E9AB17' })
 }
 
 const buttons = ref([
   { label: '设置', handleClick: openOptionsPage },
-  { label: '脚本录制', handleClick: startCodeGenerate },
   { label: '通知', handleClick: sendNotify },
   { label: '关于', route: '/about' },
 ])
 
+let tabId: number
 const checked = ref(false)
-const toggleSettingRecord = () =>
-  chrome.storage.local.set({
-    RecordState: checked.value,
+const checkedText = ref('开始录制')
+const toggleSettingRecord = async () => {
+  checkedText.value = '录制中'
+
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const tab = tabs[0]
+    if (tab && tab.id) {
+      tabId = tab.id
+      chrome.tabs.sendMessage(tab.id, {
+        type: POPUP_OPEN_ELEMENT_SELECTOR,
+        data: tab.id,
+        tab: tab.id,
+      })
+    }
   })
 
-onMounted(() => {})
+  startCodeGenerate()
+}
 
 onBeforeMount(() => {
   chrome.storage.local.get(RecordState, (result) => {
-    checked.value = result.RecordState
+    if (result && result.RecordState) {
+      checked.value = true
+      if (checked.value) checkedText.value = '录制中'
+    }
   })
 })
 </script>

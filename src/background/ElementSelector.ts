@@ -21,7 +21,9 @@ export async function initElementSelector({
     chrome.tabs.sendMessage(
       activeTabId,
       {
+        data: {},
         type: OPEN_ELEMENT_SELECTOR,
+        tab: activeTab.id,
       },
       async (response) => {
         if (!response) {
@@ -38,4 +40,21 @@ export async function initElementSelector({
   } else {
     console.error('No active tab found.')
   }
+}
+
+export async function openElementSelectorWithTabId(tabId: number) {
+  chrome.tabs.get(tabId, async (tab) => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError)
+      return
+    }
+
+    await browser.scripting.executeScript({
+      target: {
+        allFrames: true,
+        tabId: tab.id!,
+      },
+      files: ['scripts/elementSelector/index.js'],
+    })
+  })
 }

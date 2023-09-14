@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill'
-import { OPEN_ELEMENT_SELECTOR } from './GlobalConstants'
 
 type Message = {
   name: string
@@ -54,9 +53,9 @@ export class MessageListener {
 }
 
 export async function sendMessage(
-  name = '',
-  data: unknown = {},
-  prefix = ''
+  prefix: string,
+  name: string,
+  data: unknown = {}
 ): Promise<unknown> {
   const payload: Message = {
     name: nameBuilder(prefix, name),
@@ -71,15 +70,18 @@ export async function sendMessage(
 }
 
 export const MessageTypes = {
-  // record
   RECORD: {
     PREFIX: 'record',
     CHANGE_CODE: 'change-code',
+    GET_RECORD_ID: 'get-record-id',
   },
-  // background
   BACKGROUND: {
     PREFIX: 'background',
-    OPEN_ELEMENT_SELECTOR: OPEN_ELEMENT_SELECTOR,
+    OPEN_ELEMENT_SELECTOR: 'open-element-selector',
+    AUTO_OPEN_ELEMENT_IN_CONTENT: 'auto-open-element-selector',
     GET_CURRENT_DOMAIN: 'get-current-domain',
+    GET_CURRENT_TAB: 'get-current-tab',
+    SET_BADGE: 'set-badge',
+    EXECUTE_SCRIPT: 'execute-script',
   },
 }

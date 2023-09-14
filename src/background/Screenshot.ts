@@ -21,6 +21,7 @@ export async function startScreenshot({
   ) {
     const folder = getDomainFromUrl(activeTab.url!)
     const tabId = activeTab.id
+    const filename = `${folder}/${getUUID()}.png`
     CaptureUtil.captureScreen()
       .then((dataUrl) => {
         chrome.tabs.sendMessage(
@@ -28,12 +29,13 @@ export async function startScreenshot({
           {
             type: START_SCREENSHOT,
             data: dataUrl,
+            tab: tabId,
           },
           (response) => {
             chrome.downloads.download(
               {
                 url: response,
-                filename: `${folder}/${getUUID()}.png`,
+                filename: filename,
               },
               () => {
                 if (chrome.runtime.lastError) {

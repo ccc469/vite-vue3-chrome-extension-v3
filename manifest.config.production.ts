@@ -76,6 +76,11 @@ export default defineManifest(async (env) => ({
       resources: ['js/content-script/content-loader.js'],
       use_dynamic_url: true,
     },
+    {
+      matches: ['*://*/*'],
+      resources: ['src/assets/tailwind.css', 'src/assets/tailwind.js'],
+      use_dynamic_url: true,
+    },
   ],
 
   content_security_policy: {

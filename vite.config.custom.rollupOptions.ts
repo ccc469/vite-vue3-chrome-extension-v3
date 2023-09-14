@@ -57,13 +57,13 @@ const customEntryFileNames = (chunkInfo) => {
   let folder = facadeModuleId[facadeModuleId.length - 2] || '[name]'
   let filename = chunkInfo.facadeModuleId == null ? '[name]-bundle' : '[name]'
 
-  // contentScript目录下
+  // content-script目录下
   if (
     chunkInfo.moduleIds.filter(
-      (moduleId) => moduleId.indexOf('contentScript') > -1
+      (moduleId) => moduleId.indexOf('content-script') > -1
     ).length > 0
   ) {
-    folder = 'contentScript'
+    folder = 'content-script'
     return `js${sep}${folder}${sep}${filename}${sep}[name]-bundle.js`
   }
 
@@ -81,9 +81,9 @@ const customAssetFileNames = (chunkInfo) => {
   let filename = `${chunkInfo.name}`
   if (chunkInfo.name === 'logo.png') {
     return `src${sep}assets${sep}${filename}`
-  } else if (chunkInfo.name === 'contentScript-loader.index.js') {
+  } else if (chunkInfo.name === 'index.ts-loader.js') {
     filename = 'content-loader.js'
-    return `js${sep}contentScript${sep}${filename}`
+    return `js${sep}content-script${sep}${filename}`
   }
 
   return `[ext]${sep}[name]-[hash].[ext]`
@@ -100,7 +100,7 @@ const customManualChunks = (id) => {
 export function developmentRollupOptions() {
   return {
     input: {
-      record: 'src/contentScript/record/index.html',
+      record: 'src/content-script/record/index.html',
     },
   }
 }

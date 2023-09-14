@@ -28,6 +28,7 @@ export default defineManifest(async (env) => ({
   background: {
     service_worker: 'src/background/index.ts',
   },
+
   commands: {
     _execute_action: {
       suggested_key: {
@@ -54,7 +55,7 @@ export default defineManifest(async (env) => ({
       all_frames: false,
       js: ['src/content-script/index.ts'],
       matches: ['*://*/*'],
-      run_at: 'document_start',
+      run_at: 'document_end',
     },
   ],
   host_permissions: ['*://*/*'],
@@ -65,6 +66,7 @@ export default defineManifest(async (env) => ({
     'tabs',
     'storage',
     'webRequest',
+    'webNavigation',
     'scripting',
     'notifications',
     'downloads',
@@ -74,6 +76,11 @@ export default defineManifest(async (env) => ({
     {
       matches: ['*://*/*'],
       resources: ['src/content-script/index.ts'],
+      use_dynamic_url: true,
+    },
+    {
+      matches: ['*://*/*'],
+      resources: ['src/assets/tailwind.css', 'src/assets/tailwind.js'],
       use_dynamic_url: true,
     },
   ],
