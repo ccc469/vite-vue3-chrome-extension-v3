@@ -70,8 +70,24 @@ const autoOpenElementSelector = async () => {
     )
   }
 }
+const initSandbox = () => {
+  const src = chrome.runtime.getURL('src/sandbox/index.html')
+  const iframe = new DOMParser().parseFromString(
+    `<iframe src="${src}" id="sandbox" style="display: none;"></iframe>`,
+    'text/html'
+  ).body.firstElementChild
 
+  if (iframe) {
+    document.body?.append(iframe)
+  }
+}
 ;(async () => {
   // initApp()
+  initSandbox()
   autoOpenElementSelector()
+
+  setTimeout(() => {
+    const sandbox = document.getElementById('sandbox') as HTMLIFrameElement
+    console.log('🚀 ~ file: index.ts:80 ~ setTimeout ~ sandbox:', sandbox)
+  }, 5000)
 })()

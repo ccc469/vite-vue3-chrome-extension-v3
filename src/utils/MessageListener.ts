@@ -82,6 +82,5 @@ export const MessageTypes = {
     GET_CURRENT_DOMAIN: 'get-current-domain',
     GET_CURRENT_TAB: 'get-current-tab',
     SET_BADGE: 'set-badge',
-    EXECUTE_SCRIPT: 'execute-script',
   },
 }

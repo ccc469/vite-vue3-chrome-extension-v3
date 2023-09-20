@@ -5,7 +5,6 @@ import {
 } from '~/background/ElementSelector'
 import { getActiveTab } from '~/utils/BrowserHelper'
 import {
-  ExecuteScriptType,
   RecordData,
   RecordDataType,
   RecordState,
@@ -85,24 +84,6 @@ class EventsListeners {
         }
       }
     )
-    message.on(MessageTypes.BACKGROUND.EXECUTE_SCRIPT, async (data) => {
-      if (data) {
-        const { tab, code } = data as ExecuteScriptType
-        await browser.scripting.executeScript({
-          args: [code],
-          target: {
-            allFrames: true,
-            tabId: tab,
-          },
-          func: (code) => {
-            console.log(
-              '🚀 ~ file: EventsListeners.ts:98 ~ EventsListeners ~ message.on ~ code:',
-              code
-            )
-          },
-        })
-      }
-    })
 
     // End...
     console.log(

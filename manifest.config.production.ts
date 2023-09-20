@@ -82,7 +82,9 @@ export default defineManifest(async (env) => ({
       use_dynamic_url: true,
     },
   ],
-
+  sandbox: {
+    pages: ['src/sandbox/index.html'],
+  },
   content_security_policy: {
     sandbox:
       "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';",

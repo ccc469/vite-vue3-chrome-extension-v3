@@ -447,7 +447,6 @@ import {
   Tooltip,
 } from 'flowbite'
 import { RecordData, RecordDataType } from '~/utils/GlobalConstants'
-import { MessageTypes, sendMessage } from '~/utils/MessageListener'
 
 const tabElements: TabItem[] = []
 
@@ -498,11 +497,6 @@ const runCode = async (record: RecordDataType) => {
       changeInfo: chrome.tabs.TabChangeInfo
     ) {
       if (tabId === newTabId && changeInfo.status === 'complete') {
-        await sendMessage(
-          MessageTypes.BACKGROUND.PREFIX,
-          MessageTypes.BACKGROUND.EXECUTE_SCRIPT,
-          { tab: tabId, code: record.code }
-        )
         chrome.tabs.onUpdated.removeListener(listener)
       }
     }

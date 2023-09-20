@@ -101,7 +101,28 @@ const startCodeGenerate = async () => {
   await browser.action.setBadgeBackgroundColor({ color: '#E9AB17' })
 }
 
+const openDashboard = async () => {
+  const newUrl = await browser.runtime.getURL('src/newtab/index.html')
+  const screenWidth = window.screen.availWidth
+  const screenHeight = window.screen.availHeight
+  const width = Math.round(screenWidth * 0.8)
+  const height = Math.round(screenHeight * 0.8)
+  const left = (screenWidth - width) / 2
+  const top = (screenHeight - height) / 2
+
+  await browser.windows.create({
+    left: Math.round(left),
+    top: Math.round(top),
+    width: width,
+    height: height,
+    url: newUrl,
+    type: 'popup',
+    focused: true,
+  })
+}
+
 const buttons = ref([
+  { label: 'Dashboard', handleClick: openDashboard },
   { label: '设置', handleClick: openOptionsPage },
   { label: '通知', handleClick: sendNotify },
   { label: '关于', route: '/about' },

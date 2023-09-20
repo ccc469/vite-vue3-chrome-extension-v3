@@ -53,8 +53,8 @@ export default defineConfig({
           baseRoute: 'record',
         },
         {
-          dir: 'src/content-script/pages',
-          baseRoute: 'control',
+          dir: 'src/test/pages',
+          baseRoute: 'newtab',
         },
       ],
     }),

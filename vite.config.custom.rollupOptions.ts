@@ -101,6 +101,7 @@ export function developmentRollupOptions() {
   return {
     input: {
       record: 'src/content-script/record/index.html',
+      sandbox: 'src/sandbox/index.html',
     },
   }
 }
@@ -110,6 +111,7 @@ export function productionRollupOptions() {
     plugins: [clearContentScriptFilesPlugin()],
     input: {
       record: 'src/content-script/record/index.html',
+      sandbox: 'src/sandbox/index.html',
     },
     output: {
       manualChunks: customManualChunks,
